@@ -23,6 +23,8 @@ This project focuses on transforming large datasets using a Gaussian Mixture Mod
 - Libraries: `pandas`, `numpy`, `scikit-learn`, `joblib`
 
 ## Installation
+1. Clone this repository
+git clone https://github.com/awesomecode913/mle_assignment.git
 
 1. Install the required packages:
    ```bash
