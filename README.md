@@ -1,62 +1,40 @@
-# Data Transformation and GMM Encoding Analysis
 
-This project focuses on transforming large datasets using a Gaussian Mixture Model (GMM) encoder and evaluating its accuracy, particularly for handling extreme values. It is divided into two main tasks:
+# Large-Scale Data Transformation and Validation Project
 
-1. **Task 1**: Process a large dataset of up to 1 billion rows by loading and transforming it in chunks, with an emphasis on efficient processing time.
-2. **Task 2**: Assess the accuracy of the GMM encoder, particularly with extreme values, and analyze the time taken for transformations.
+## Overview
+This project is designed to handle the transformation and validation of large datasets, scaling up to 1 billion rows. It includes processes for fitting, transforming, and validating data using Python with libraries like `Pandas`, `Dask`, and `NumPy`. The project also evaluates transformations using extreme values and calculates error metrics such as MAE and RMSE for performance assessment.
 
----
-
-## Table of Contents
-
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Tasks Overview](#tasks-overview)
-  - [Task 1: Processing Large Dataset in Chunks](#task-1-processing-large-dataset-in-chunks)
-  - [Task 2: Testing GMM Encoder Accuracy](#task-2-testing-gmm-encoder-accuracy)
-
----
+## Project Structure
+- **Data Loading and Scaling**: Loads a chunk of data from `Credit.csv` and scales it up to 1 billion rows.
+- **Transformation**: Transforms data in chunks to manage memory efficiently.
+- **Validation**: Checks the accuracy and reversibility of transformations using extreme values and the full dataset.
 
 ## Requirements
+- Python 3.x
+- `Pandas`
+- `NumPy`
+- `Dask`
+- `scikit-learn`
 
-- Python 3.6+
-- Libraries: `pandas`, `numpy`, `scikit-learn`, `joblib`
+### Installation
+To install the required packages, run:
+```bash
+pip install pandas numpy dask scikit-learn
+```
 
-## Installation
-1. Clone this repository
-git clone https://github.com/awesomecode913/mle_assignment.git
+## Workflow
+1. **Data Scaling**: The initial data from `Credit.csv` is scaled to 1 billion rows by repeating the data and converting it to `float32` for memory efficiency.
+2. **Transformer Initialization**: A custom `DataTransformer` class is initialized and fitted using a sample of the scaled data.
+3. **Transformation and Validation**:
+   - Transform and inverse-transform extreme values (e.g., 0 and \(10^{10}\)) to check robustness.
+   - Transform the full dataset in smaller, manageable chunks to avoid memory overload.
+   - Print intermediate outputs to track progress.
+   - Calculate MAE and RMSE for error analysis.
 
-1. Install the required packages:
-   ```bash
-   pip install pandas numpy scikit-learn joblib
+## Error Metrics
+- **MAE (Mean Absolute Error)**: Measures the average magnitude of the errors between the original and inverse-transformed data.
+- **RMSE (Root Mean Squared Error)**: Evaluates the square root of the average of squared errors to indicate overall accuracy.
 
-## task-1-processing-large-dataset-in-chunks
-In this task, we handle a very large dataset by loading it in chunks to save memory. We transform each chunk separately and record the time taken for each step. This approach allows us to work with large datasets without loading everything into memory at once.
-
-Steps
-1. Import Libraries: First, we import necessary libraries like pandas, time, and joblib for handling data and measuring processing time.
-
-2. Initialize Transformer with Sample Data: We load a small part of the dataset to initialize the DataTransformer with metadata. This allows the transformer to understand the data structure.
-
-3. Define a Chunk Processing Function: The function fit_transform_chunk processes each chunk:
-
-    - Fit: It fits the model to the chunk and measures the fitting time.
-    - Transform: It transforms the chunk’s data and measures the transformation time.
-
-4. Load and Process All Chunks: We reload the dataset in chunks and use Parallel processing to handle multiple chunks at once. This speeds up the processing time.
-
-5. Verify Results: After processing, we check the number of processed chunks and display a sample transformed chunk to confirm the operation worked.
-
-## task-2-testing-gmm-encoder-accuracy
-In this task, we check how accurately the GMM encoder transforms and restores data, focusing on extreme values (e.g., very large or very small numbers) to ensure the model handles them well. We also measure the time for these transformations.
-
-Steps
-1. Define Extreme Values: We create a small set of extreme values to test the encoder’s behavior with unusual data points.
-
-2. Transform and Inverse Transform Extreme Values:
-
-    - We transform the extreme values and record the time.
-    - We then inverse transform (decode) these values back to their original form and record the time.
-3. Calculate Accuracy: We calculate the Mean Absolute Error (MAE) and Root Mean Squared Error (RMSE) to check if the encoded and decoded values match the original values.
-
-4. Transform and Inverse Transform Full Dataset: Finally, we repeat the transformation and inverse transformation on the entire dataset and record the time for each step. We calculate MAE and RMSE to ensure accuracy across the full dataset.
+## Performance
+- **Timing**: Measures and displays the time taken for each transformation step.
+- **Progress Output**: Prints intermediate data samples and progress updates for better monitoring.
